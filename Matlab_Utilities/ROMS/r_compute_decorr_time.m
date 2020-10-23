@@ -16,12 +16,10 @@ if(m(ix,iy)==1)
   
   % Data at this grid point
   tmp = squeeze(z(ix,iy,:));
+  if(~all(diff(tmp)==0) & ~all(isnan(tmp)))
  
-  % For now, time series is 'detided' for testing purposes
-  tmp = smooth(tmp,13,'lowess');
-  
-  % Do
-  if(~all(diff(tmp)==0))
+    % For now, time series is 'detided' for testing purposes
+    tmp = smooth(tmp,13,'lowess');
 
     % Autocorrelation
     acorr = autocorr(tmp,numel(tmp)-1);

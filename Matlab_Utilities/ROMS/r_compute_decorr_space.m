@@ -39,6 +39,11 @@ clc; disp(['ix=' num2str(ix) ', iy=' num2str(iy)]);
       end
       clear iN mN;
       
+      % Remove empty time series
+      jj = find(~all(isnan(zN')));
+      xN = xN(jj);  yN = yN(jj);    zN = zN(jj,:);
+      clear jj;
+      
       % Second check if enough data
       if(numel(xN)>=min_to_calc)
       
@@ -93,6 +98,11 @@ clc; disp(['ix=' num2str(ix) ', iy=' num2str(iy)]);
       end
       clear iS mS;
       
+      % Remove empty time series
+      jj = find(~all(isnan(zS')));
+      xS = xS(jj);  yS = yS(jj);    zS = zS(jj,:);
+      clear jj;
+      
       % Second check if enough data
       if(numel(xS)>=min_to_calc)
       
@@ -144,6 +154,11 @@ clc; disp(['ix=' num2str(ix) ', iy=' num2str(iy)]);
       end
       clear iE mE;
       
+      % Remove empty time series
+      jj = find(~all(isnan(zE')));
+      xE = xE(jj);  yE = yE(jj);    zE = zE(jj,:);
+      clear jj;
+      
       % Second check if enough data
       if(numel(xE)>=min_to_calc)     
       
@@ -151,14 +166,17 @@ clc; disp(['ix=' num2str(ix) ', iy=' num2str(iy)]);
         if(numel(xE)>max_to_calc)
           xE = xE(1:max_to_calc); yE = yE(1:max_to_calc); zE = zE(1:max_to_calc,:);
         end
-      
+        
         % Compute distances
         dE = sqrt( (xE-xE(1)).^2 + (yE-yE(1)).^2 );
       
         % Compute correlations
         corrE = ones(numel(dE),1);
         for j=2:numel(dE)
-          corrE(j) = nancorr(zE(1,:)',zE(j,:)');
+          try corrE(j) = nancorr(zE(1,:)',zE(j,:)');
+          catch err;
+            pause(1e-9);
+          end
         end
         clear j;
       
@@ -194,6 +212,11 @@ clc; disp(['ix=' num2str(ix) ', iy=' num2str(iy)]);
         iW = iW-1;  xW = xW(1:iW);  yW = yW(1:iW);  zW = zW(1:iW,:);
       end
       clear iW mW;
+      
+      % Remove empty time series
+      jj = find(~all(isnan(zW')));
+      xW = xW(jj);  yW = yW(jj);    zW = zW(jj,:);
+      clear jj;
       
       % Second check if enough data
       if(numel(xW)>=min_to_calc)
